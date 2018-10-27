@@ -1,0 +1,49 @@
+                              ORACLE DATABASE CREATION
+
+Step1:-
+ashpak@ashpak:~/Documents/Disk1$ vi .bash_profile
+
+inside bash_profile:-
+                                    export ORACLE_SID=ashpak
+                                    export ORACLE_HOME=/u01/app/oracle/product/11.2.0/dbhome_1
+                                    export PATH=$ORACLE_HOME/bin:$PATH
+save file.
+----------------------------------------------------------------------------------------------------------
+Step2:-
+ashpak@ashpak:~/Documents/Disk1$ . .bash_profile
+
+step3:-
+check require Environment Variable are set:-
+ashpak@ashpak:~/Documents/Disk1$ echo $ORACLE_SID    
+
+ashpak@ashpak:~/Documents/Disk1$ echo $ORACLE_HOME
+
+ashpak@ashpak:~/Documents/Disk1$ echo $PATH
+---------------------------------------------------------------------------------------------------------
+step4:-
+           create the initalization Parameter file
+$cd $ORACLE_HOME/dbs
+
+$vi initorcl.ora
+     insert all parameters in that file and save
+
+                  db_name='orcl'
+                  shared_pool_size=100m
+                 processes = 150
+                 db_block_size=8192
+                diagnostic_dest='/disk3/oradata/orcl'
+                control_files=(disk1/oradata/orcl/control01.ctl)
+                open_cursors=300
+                undo_tablespace='UNDOTBS1'
+                compatible ='11.2.0'
+--------------------------------------------------------------------------------------------------------
+
+step5:-
+              create directory structure
+   
+             ashpak@ashpak:~/Documents/Disk1$ sudo mkdir -p /disk1/oradata/orcl
+             ashpak@ashpak:~/Documents/Disk1$ sudo mkdir -p /disk2/oradata/orcl
+             ashpak@ashpak:~/Documents/Disk1$ sudo mkdir -p /disk3/oradata/orcl
+-----------------------------------------------------------------------------------------------------------
+
+step6:-
