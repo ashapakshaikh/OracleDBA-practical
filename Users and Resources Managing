@@ -1,0 +1,275 @@
+
+
+                       ***Creating a New User Account***
+                       ---------------------------------
+ SQL> CREATE USER NEW 
+  2  IDENTIFIED BY Ashpak123
+  3  DEFAULT TABLESPACE USERS
+  4  QUOTA 15M ON SYSTEM
+  5  QUOTA 15M ON USERS
+  6  TEMPORARY TABLESPACE TEMP
+  7  PROFILE DEFAULT;
+
+User created.
+---------------------------------------------------------------------------------------   
+
+                             ***Grant the Privileges to user***
+                             ----------------------------------
+ SQL> GRANT CREATE SESSION,CREATE TABLE TO NEW;
+
+Grant succeeded.
+
+-----------------------------------------------------------------------------------------
+ 
+                              ***Connect to User***
+  SQL> connect NEW/Ashpak123
+Connected.
+
+------------------------------------------------------------------------------------------
+                              
+                              ***Create table and 
+
+  SQL> create table student (	    
+  2  stu_id  int not null,
+  3  stu_name varchar(25)
+  4  );
+
+  Table created.
+
+  SQL> insert into student (stu_id,stu_name) values (1,'ajit');
+
+    1 row created.
+
+  SQL> insert into student (stu_id,stu_name) values (2,'pratik');
+
+     1 row created.
+
+  SQL> insert into student (stu_id,stu_name) values (3,'akash');
+
+    1 row created.
+
+  SQL> select * from student;
+
+    STU_ID STU_NAME
+---------- -------------------------
+	 1 ajit
+	 2 pratik
+	 3 akash
+
+ ------------------------------------------------------------------------------------------------
+
+                               ***Reconnect to sysdba***
+
+   SQL> connect / as sysdba
+    
+    Connected.
+                                                                                   
+--------------------------------------------------------------------------------------------------
+
+                               ***See All Users in Databases***
+
+  SQL> select * from ALL_USERS;
+
+USERNAME			  USER_ID CREATED
+------------------------------ ---------- --------
+XS$NULL 		       2147483638 28-08-11
+SCOTT				       51 28-10-18
+NEW				       50 28-10-18
+ASHPAK				       49 28-10-18
+AJIT				       48 27-10-18
+APEX_040000			       47 28-08-11
+APEX_PUBLIC_USER		       45 28-08-11
+FLOWS_FILES			       44 28-08-11
+HR				       43 28-08-11
+MDSYS				       42 28-08-11
+ANONYMOUS			       35 28-08-11
+
+USERNAME			  USER_ID CREATED
+------------------------------ ---------- --------
+XDB				       34 28-08-11
+CTXSYS				       32 28-08-11
+OUTLN					9 28-08-11
+SYSTEM					5 28-08-11
+SYS					0 28-08-11
+
+16 rows selected.
+
+------------------------------------------------------------------------------------------------------
+
+                            ***See the Users Tablespace Quotas,Username and all ***
+
+  SQL> select * from DBA_TS_QUOTAS;
+
+TABLESPACE_NAME 	       USERNAME 			   BYTES
+------------------------------ ------------------------------ ----------
+ MAX_BYTES     BLOCKS MAX_BLOCKS DRO
+---------- ---------- ---------- ---
+USERS			       NEW				   65536
+  15728640	    8	    1920 NO
+
+USERS			       HR				 1638400
+	-1	  200	      -1 NO
+
+SYSAUX			       FLOWS_FILES			  458752
+	-1	   56	      -1 NO
+
+
+TABLESPACE_NAME 	       USERNAME 			   BYTES
+------------------------------ ------------------------------ ----------
+ MAX_BYTES     BLOCKS MAX_BLOCKS DRO
+---------- ---------- ---------- ---
+SYSTEM			       NEW				       0
+  15728640	    0	    1920 NO
+
+
+-----------------------------------------------------------------------------------------------------
+
+                            ***See the DBA Roles***      
+
+  SQL> select * from DBA_ROLES;
+
+ROLE			       PASSWORD AUTHENTICAT
+------------------------------ -------- -----------
+CONNECT 		       NO	NONE
+RESOURCE		       NO	NONE
+DBA			       NO	NONE
+SELECT_CATALOG_ROLE	       NO	NONE
+EXECUTE_CATALOG_ROLE	       NO	NONE
+DELETE_CATALOG_ROLE	       NO	NONE
+EXP_FULL_DATABASE	       NO	NONE
+IMP_FULL_DATABASE	       NO	NONE
+LOGSTDBY_ADMINISTRATOR	       NO	NONE
+DBFS_ROLE		       NO	NONE
+AQ_ADMINISTRATOR_ROLE	       NO	NONE
+
+ROLE			       PASSWORD AUTHENTICAT
+------------------------------ -------- -----------
+AQ_USER_ROLE		       NO	NONE
+DATAPUMP_EXP_FULL_DATABASE     NO	NONE
+DATAPUMP_IMP_FULL_DATABASE     NO	NONE
+ADM_PARALLEL_EXECUTE_TASK      NO	NONE
+GATHER_SYSTEM_STATISTICS       NO	NONE
+XDB_WEBSERVICES_OVER_HTTP      NO	NONE
+RECOVERY_CATALOG_OWNER	       NO	NONE
+SCHEDULER_ADMIN 	       NO	NONE
+HS_ADMIN_SELECT_ROLE	       NO	NONE
+HS_ADMIN_EXECUTE_ROLE	       NO	NONE
+HS_ADMIN_ROLE		       NO	NONE
+
+ROLE			       PASSWORD AUTHENTICAT
+------------------------------ -------- -----------
+OEM_ADVISOR		       NO	NONE
+OEM_MONITOR		       NO	NONE
+PLUSTRACE		       NO	NONE
+CTXAPP			       NO	NONE
+XDBADMIN		       NO	NONE
+XDB_SET_INVOKER 	       NO	NONE
+AUTHENTICATEDUSER	       NO	NONE
+XDB_WEBSERVICES 	       NO	NONE
+XDB_WEBSERVICES_WITH_PUBLIC    NO	NONE
+APEX_ADMINISTRATOR_ROLE        NO	NONE
+
+32 rows selected.
+
+
+--------------------------------------------------------------------------------------------------
+                                                                         
+                         ***See the Granted role and Grantee***
+                         
+  SQL> select * from DBA_ROLE_PRIVS;
+
+GRANTEE 		       GRANTED_ROLE		      ADM DEF
+------------------------------ ------------------------------ --- ---
+SYS			       XDB_SET_INVOKER		      YES YES
+SYS			       XDBADMIN 		      YES YES
+SYS			       IMP_FULL_DATABASE	      YES YES
+DBA			       SCHEDULER_ADMIN		      YES YES
+DBA			       DATAPUMP_IMP_FULL_DATABASE     NO  YES
+SYSTEM			       AQ_ADMINISTRATOR_ROLE	      YES YES
+EXECUTE_CATALOG_ROLE	       HS_ADMIN_EXECUTE_ROLE	      NO  YES
+HS_ADMIN_ROLE		       HS_ADMIN_EXECUTE_ROLE	      NO  YES
+OEM_MONITOR		       SELECT_CATALOG_ROLE	      NO  YES
+APEX_040000		       RESOURCE 		      YES YES
+SCOTT			       RESOURCE 		      NO  YES
+
+GRANTEE 		       GRANTED_ROLE		      ADM DEF
+------------------------------ ------------------------------ --- ---
+SYS			       APEX_ADMINISTRATOR_ROLE	      YES YES
+SYS			       RECOVERY_CATALOG_OWNER	      YES YES
+SYS			       DELETE_CATALOG_ROLE	      YES YES
+DBA			       DELETE_CATALOG_ROLE	      YES YES
+DBA			       EXECUTE_CATALOG_ROLE	      YES YES
+HR			       RESOURCE 		      NO  YES
+SYS			       DBA			      YES YES
+DBA			       PLUSTRACE		      YES YES
+IMP_FULL_DATABASE	       EXECUTE_CATALOG_ROLE	      NO  YES
+LOGSTDBY_ADMINISTRATOR	       RESOURCE 		      NO  YES
+DATAPUMP_EXP_FULL_DATABASE     EXP_FULL_DATABASE	      NO  YES
+
+GRANTEE 		       GRANTED_ROLE		      ADM DEF
+------------------------------ ------------------------------ --- ---
+CTXSYS			       CTXAPP			      YES YES
+APEX_040000		       CONNECT			      NO  YES
+SYS			       XDB_WEBSERVICES_OVER_HTTP      YES YES
+SYS			       AUTHENTICATEDUSER	      YES YES
+SYS			       ADM_PARALLEL_EXECUTE_TASK      YES YES
+DBA			       EXP_FULL_DATABASE	      NO  YES
+DBA			       SELECT_CATALOG_ROLE	      YES YES
+EXP_FULL_DATABASE	       EXECUTE_CATALOG_ROLE	      NO  YES
+IMP_FULL_DATABASE	       SELECT_CATALOG_ROLE	      NO  YES
+CTXSYS			       RESOURCE 		      NO  YES
+MDSYS			       RESOURCE 		      NO  YES
+
+GRANTEE 		       GRANTED_ROLE		      ADM DEF
+------------------------------ ------------------------------ --- ---
+HR			       CONNECT			      NO  YES
+SYS			       HS_ADMIN_ROLE		      YES YES
+SYS			       HS_ADMIN_SELECT_ROLE	      YES YES
+SYS			       DATAPUMP_IMP_FULL_DATABASE     YES YES
+SYS			       EXP_FULL_DATABASE	      YES YES
+DBA			       GATHER_SYSTEM_STATISTICS       NO  YES
+EXP_FULL_DATABASE	       SELECT_CATALOG_ROLE	      NO  YES
+HS_ADMIN_ROLE		       HS_ADMIN_SELECT_ROLE	      NO  YES
+XDB			       RESOURCE 		      NO  YES
+SYS			       CTXAPP			      YES YES
+SYS			       PLUSTRACE		      YES YES
+
+GRANTEE 		       GRANTED_ROLE		      ADM DEF
+------------------------------ ------------------------------ --- ---
+SYS			       OEM_MONITOR		      YES YES
+SYS			       HS_ADMIN_EXECUTE_ROLE	      YES YES
+SYS			       DATAPUMP_EXP_FULL_DATABASE     YES YES
+SYS			       AQ_ADMINISTRATOR_ROLE	      YES YES
+SYS			       DBFS_ROLE		      YES YES
+DBA			       XDB_SET_INVOKER		      NO  YES
+DBA			       DATAPUMP_EXP_FULL_DATABASE     NO  YES
+SELECT_CATALOG_ROLE	       HS_ADMIN_SELECT_ROLE	      NO  YES
+XDB			       CTXAPP			      NO  YES
+SYS			       XDB_WEBSERVICES		      YES YES
+SYS			       SCHEDULER_ADMIN		      YES YES
+
+GRANTEE 		       GRANTED_ROLE		      ADM DEF
+------------------------------ ------------------------------ --- ---
+SYS			       AQ_USER_ROLE		      YES YES
+SYS			       LOGSTDBY_ADMINISTRATOR	      YES YES
+SYS			       EXECUTE_CATALOG_ROLE	      YES YES
+SYS			       RESOURCE 		      YES YES
+DBA			       XDBADMIN 		      NO  YES
+DBA			       IMP_FULL_DATABASE	      NO  YES
+SYSTEM			       DBA			      YES YES
+DATAPUMP_IMP_FULL_DATABASE     EXP_FULL_DATABASE	      NO  YES
+DATAPUMP_IMP_FULL_DATABASE     IMP_FULL_DATABASE	      NO  YES
+SYS			       XDB_WEBSERVICES_WITH_PUBLIC    YES YES
+SYS			       OEM_ADVISOR		      YES YES
+
+GRANTEE 		       GRANTED_ROLE		      ADM DEF
+------------------------------ ------------------------------ --- ---
+SYS			       GATHER_SYSTEM_STATISTICS       YES YES
+SYS			       SELECT_CATALOG_ROLE	      YES YES
+SYS			       CONNECT			      YES YES
+OUTLN			       RESOURCE 		      NO  YES
+MDSYS			       CONNECT			      NO  YES
+SCOTT			       CONNECT			      NO  YES
+                                                                      
+-------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
